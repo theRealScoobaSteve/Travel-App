@@ -1,4 +1,9 @@
-import { FETCH_BOOKMARKS, BOOKMARK_ADDED, BOOKMARK_REMOVED } from "./Actions";
+import {
+  FETCH_BOOKMARKS,
+  BOOKMARK_ADDED,
+  BOOKMARK_REMOVED,
+  GOTO_BOOKMARK
+} from "./Actions";
 
 /**
  * Reducer used for all data on the Bookmarks page
@@ -13,6 +18,8 @@ export default function(state = [], action) {
     case BOOKMARK_ADDED:
       return [...state, action.payload];
     case BOOKMARK_REMOVED:
+      console.log(state);
+      console.log(state.filter(bookmark => bookmark.id !== action.payload.id));
       return state.filter(bookmark => bookmark.id !== action.payload.id);
     default:
       return state;

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { Container, Button, Content } from "steves-custom-components";
@@ -32,22 +31,6 @@ class Bookmark extends Component {
     const { navigate } = this.props.navigation;
     navigate("Places", place);
   };
-
-  componentDidMount() {
-    let bookmarks;
-    axios
-      .post("localhost:8080/login", {
-        email: "stephensimone@live.com",
-        password: "test"
-      })
-      .then(response => {
-        console.log("RESPONSE ", response);
-        axios.get("localhost:8080/bookmarks/all").then(bookmark => {
-          bookmarks = bookmark;
-        });
-        console.log(bookmarks);
-      });
-  }
 
   /**
    * @method renderCards
@@ -99,12 +82,12 @@ function mapStateToProps({ bookmarks }) {
   return { bookmarks };
 }
 
-// function mapDispatch(dispatch) {
-//   dispatch(fetchBookmarks());
-//   // watchBookmarkAddedEvent(dispatch);
-//   // watchBookmarkRemovedEvent(dispatch);
-//   return {};
-// }
+function mapDispatch(dispatch) {
+  dispatch(fetchBookmarks());
+  watchBookmarkAddedEvent(dispatch);
+  watchBookmarkRemovedEvent(dispatch);
+  return {};
+}
 
 const styles = StyleSheet.create({
   addButton: {
@@ -122,6 +105,6 @@ const styles = StyleSheet.create({
 });
 
 export default connect(
-  mapStateToProps
-  // mapDispatch
+  mapStateToProps,
+  mapDispatch
 )(Bookmark);

@@ -1,5 +1,6 @@
 import axios from "axios";
 
+import { getFirebase } from "../../services/Database";
 import keys from "../../services/Keys";
 
 export const CURRENT_PLACE = "current_place";
@@ -12,6 +13,7 @@ export const CURRENT_PLACE = "current_place";
  * @returns {Object} action
  */
 export function currentPlace(placeData, cb) {
+  const { database } = getFirebase();
   const { photo, address } = placeData;
   axios
     .get(
@@ -23,11 +25,15 @@ export function currentPlace(placeData, cb) {
       // Replace the photo data with the actual link to the image because
       // the reference number is un needed now
       placeData.photo = res.config.url;
-
-      /**
-       * @todo
-       * Add logic for getting the current place
-       */
+      database
+        .ref("bookmarks")
+        .orderByChild("address")
+        .equalTo(address)
+        .once("value")
+        .then(() => {
+          // Wait for async actions to happen then do this function
+          cb();
+        });
     })
     .catch(err => {
       console.error("ERROR: ", err);
