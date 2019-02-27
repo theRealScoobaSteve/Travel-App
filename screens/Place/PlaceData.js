@@ -1,8 +1,7 @@
 /*eslint-disable */
 import React, { Component } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 import { connect } from "react-redux";
-import { Button } from "steves-custom-components";
 
 import { bookMarkPlace, removeBookmark } from "./Actions";
 
@@ -44,28 +43,26 @@ class PlaceData extends Component {
     let button;
     if (bookmarked) {
       button = (
-        <Button
+        <TouchableOpacity
           style={{
             width: 150
           }}
-          bg="#18d127"
           onPress={this.removeBookmark}
         >
-          ✔️ Bookmarked
-        </Button>
+          <Text>✔️ Bookmarked</Text>
+        </TouchableOpacity>
       );
     } else {
       button = (
-        <Button
+        <TouchableOpacity
           onPress={this.bookmark}
           style={{
             flex: 1,
             padding: 10
           }}
-          bg="#1b2cf0"
         >
-          Bookmark
-        </Button>
+          <Text>Bookmark</Text>
+        </TouchableOpacity>
       );
     }
     return button;
@@ -75,34 +72,48 @@ class PlaceData extends Component {
    */
   render() {
     const { currentPlace } = this.props;
+    console.log(currentPlace.name);
     return (
-      <View style={styles.bodyContainer}>
+      <View style={styles.container}>
+        <View style={styles.imgContainer}>
+          <Image
+            style={{ flex: 1, width: null, height: null }}
+            source={{ uri: currentPlace.photo }}
+            resizeMode="cover"
+          />
+        </View>
+        <View style={styles.buttonWrapper}>
+          {this.renderButton(!!currentPlace.isBookmarked)}
+        </View>
         <View style={styles.dataContainer}>
           <Text style={styles.header}>{currentPlace.name}</Text>
           <Text style={styles.address}>{currentPlace.address}</Text>
-          <View style={styles.buttonWrapper}>
-            {this.renderButton(!!currentPlace.isBookmarked)}
-          </View>
         </View>
       </View>
     );
   }
 }
 
+// <View style={styles.buttonWrapper}>
+//   {this.renderButton()}
+// </View>
+
 function mapStateToProps({ currentPlace }, { navigation }) {
   // If params were passed in create theses values
   const name = navigation.getParam("name", null);
   const address = navigation.getParam("address", null);
   const id = navigation.getParam("id", null);
+  const photo = navigation.getParam("photo", null);
   const isBookmarked = !!name && !!address;
 
   // If coming from search page boom map it,
   // otherwise use params because user
   // is coming from bookmarks page
   return {
-    currentPlace: currentPlace.place || {
+    currentPlace: {
       name,
       address,
+      photo,
       isBookmarked,
       id
     }
@@ -110,39 +121,29 @@ function mapStateToProps({ currentPlace }, { navigation }) {
 }
 
 const styles = StyleSheet.create({
-  bodyContainer: {
-    flex: 2,
-    backgroundColor: "white",
-    flexDirection: "row",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingTop: 30,
-    marginTop: -20
+  container: {
+    flex: 1
   },
   header: {
     fontSize: 24,
     lineHeight: 26,
-    color: "#030303"
+    color: "black"
   },
   address: {
     justifyContent: "center",
-    color: "#030303",
+    color: "black",
     marginTop: 15,
     lineHeight: 19
   },
-  round: {
-    position: "absolute",
-    height: 15,
-    backgroundColor: "white"
+  imgContainer: {
+    flex: 5
   },
   dataContainer: {
-    flex: 1,
+    flex: 4,
     alignItems: "center"
   },
   buttonWrapper: {
-    height: 60,
-    width: "100%",
-    marginTop: 20,
+    flex: 1,
     justifyContent: "center",
     alignItems: "center"
   }

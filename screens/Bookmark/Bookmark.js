@@ -1,7 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Text,
+  ScrollView
+} from "react-native";
 import { connect } from "react-redux";
-import { Container, Button, Content } from "steves-custom-components";
 
 import PlaceCard from "./PlaceCard";
 import {
@@ -66,14 +71,16 @@ class Bookmark extends Component {
    */
   render() {
     return (
-      <Container>
-        <Content style={styles.content}>{this.renderCards()}</Content>
-        <View style={styles.addButton}>
-          <Button style={styles.button} onPress={this.addBookmark} bg="#0404CE">
-            Add New Place
-          </Button>
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <ScrollView>{this.renderCards()}</ScrollView>
         </View>
-      </Container>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={this.addBookmark} style={styles.button}>
+            <Text style={styles.buttonText}>Add New Place</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   }
 }
@@ -90,18 +97,29 @@ function mapDispatch(dispatch) {
 }
 
 const styles = StyleSheet.create({
-  addButton: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginLeft: 20,
-    marginRight: 20,
-    marginBottom: 20
-  },
-  content: {
+  buttonContainer: {
     flex: 1
   },
-  button: { height: 50, width: 100, flex: 1 }
+  content: {
+    flex: 9,
+    marginBottom: 5
+  },
+  button: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "blue",
+    borderRadius: 5
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 24
+  },
+  container: {
+    flex: 1,
+    margin: 5,
+    borderRadius: 5
+  }
 });
 
 export default connect(

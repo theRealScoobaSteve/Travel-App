@@ -1,4 +1,4 @@
-import * as firebase from "firebase";
+import firebase from "firebase";
 import keys from "../services/Keys";
 
 const { API_KEY, AUTH_DOMAIN, DATABSE_URL, PROJECT_ID, STORAGE_BUCKET } = keys;

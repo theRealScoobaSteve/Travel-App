@@ -1,10 +1,8 @@
 /*eslint-disable */
 import React, { Component } from "react";
 import { View } from "react-native";
-import { Container } from "steves-custom-components";
 
 /*eslint-disable */
-import PlaceImg from "./PlaceImg";
 import PlaceData from "./PlaceData";
 
 /**
@@ -15,10 +13,9 @@ import PlaceData from "./PlaceData";
 class Place extends Component {
   render() {
     return (
-      <Container>
-        <PlaceImg navigation={this.props.navigation} />
+      <View style={{ flex: 1 }}>
         <PlaceData navigation={this.props.navigation} />
-      </Container>
+      </View>
     );
   }
 }

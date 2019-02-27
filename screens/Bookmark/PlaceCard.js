@@ -1,7 +1,6 @@
 /*eslint-disable */
 import React from "react";
-import { StyleSheet, Text, Image } from "react-native";
-import { Col, Row, Container } from "steves-custom-components";
+import { StyleSheet, Text, Image, View } from "react-native";
 
 /**
  * @function PlaceCard
@@ -9,34 +8,46 @@ import { Col, Row, Container } from "steves-custom-components";
  */
 export default (PlaceCard = ({ title, street, city, img }) => {
   return (
-    <Container>
-      <Row>
+    <View style={styles.container}>
+      <View style={styles.imageContainer}>
         <Image style={styles.image} source={{ uri: img }} resizeMode="cover" />
-        <Col size={3} align="flex-start" style={{ marginLeft: 10 }}>
-          <Row>
-            <Text style={styles.title}>{title}</Text>
-          </Row>
-          <Row>
-            <Text>{street}</Text>
-          </Row>
-          <Row>
-            <Text>{city}</Text>
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+      </View>
+      <View style={styles.textContainer}>
+        <View>
+          <Text style={styles.title}>{title}</Text>
+        </View>
+        <View>
+          <Text>{street}</Text>
+        </View>
+        <View>
+          <Text>{city}</Text>
+        </View>
+      </View>
+    </View>
   );
 });
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    flexDirection: "row",
+    borderWidth: 0.5,
+    borderColor: "black",
+    marginBottom: 5
+  },
+  imageContainer: {
+    flex: 1,
+    justifyContent: "flex-start"
+  },
+  textContainer: {
+    flex: 2,
+    alignItems: "center",
+    justifyContent: "center"
   },
   image: {
     height: 90,
     width: 90,
-    borderRadius: 10,
-    flexDirection: "column"
+    borderRadius: 10
   },
   title: {
     fontSize: 18,
