@@ -55,10 +55,12 @@ export const bookmarkAdded = bookmark => ({
  * @param {Object} bookmark
  * @returns {Object} action
  */
-export const bookmarkRemoved = bookmark => ({
-  type: BOOKMARK_REMOVED,
-  payload: bookmark
-});
+export const bookmarkRemoved = bookmark => {
+  return {
+    type: BOOKMARK_REMOVED,
+    payload: bookmark
+  };
+};
 
 /**
  * Dispatch event that is fired every time data is added in the
@@ -80,6 +82,6 @@ export function watchBookmarkAddedEvent(dispatch) {
  */
 export function watchBookmarkRemovedEvent(dispatch) {
   database.ref("bookmarks").on("child_removed", snap => {
-    dispatch(bookmarkRemoved(snap.val()));
+    dispatch(bookmarkRemoved(snap.val().address));
   });
 }

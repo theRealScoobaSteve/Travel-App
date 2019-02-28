@@ -18,9 +18,7 @@ export default function(state = [], action) {
     case BOOKMARK_ADDED:
       return [...state, action.payload];
     case BOOKMARK_REMOVED:
-      console.log(state);
-      console.log(state.filter(bookmark => bookmark.id !== action.payload.id));
-      return state.filter(bookmark => bookmark.id !== action.payload.id);
+      return state.filter(bookmark => bookmark.address !== action.payload);
     default:
       return state;
   }

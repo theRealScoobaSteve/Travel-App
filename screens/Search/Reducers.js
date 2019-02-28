@@ -1,4 +1,4 @@
-import { CURRENT_PLACE } from "./Actions";
+import { CURRENT_PLACE, BOOKMARK_PLACE } from "./Actions";
 
 /**
  * Returns the current state to the Search view
@@ -9,7 +9,9 @@ import { CURRENT_PLACE } from "./Actions";
 export default function(state = {}, action) {
   switch (action.type) {
     case CURRENT_PLACE:
-      return { ...state, place: action.payload };
+      return action.payload;
+    case BOOKMARK_PLACE:
+      return action.payload;
     default:
       return state;
   }

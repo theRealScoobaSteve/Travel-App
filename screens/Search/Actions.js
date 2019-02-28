@@ -12,35 +12,22 @@ export const CURRENT_PLACE = "current_place";
  * @param {Function} cb
  * @returns {Object} action
  */
-export function currentPlace(placeData, cb) {
-  const { database } = getFirebase();
-  const { photo, address } = placeData;
-  axios
-    .get(
+export async function currentPlace(placeData, cb) {
+  const { photo } = placeData;
+  let response;
+  try {
+    response = await fetch(
       `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=${photo}&key=${
         keys.API_KEY
       }`
-    )
-    .then(res => {
-      // Replace the photo data with the actual link to the image because
-      // the reference number is un needed now
-      placeData.photo = res.config.url;
-      database
-        .ref("bookmarks")
-        .orderByChild("address")
-        .equalTo(address)
-        .once("value")
-        .then(() => {
-          // Wait for async actions to happen then do this function
-          cb();
-        });
-    })
-    .catch(err => {
-      console.error("ERROR: ", err);
-    });
-
-  return {
-    type: CURRENT_PLACE,
-    payload: placeData
-  };
+    );
+    placeData.photo = response.url;
+    cb();
+    return {
+      type: CURRENT_PLACE,
+      payload: placeData
+    };
+  } catch (e) {
+    console.log("ERROR: ", e);
+  }
 }

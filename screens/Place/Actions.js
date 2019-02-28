@@ -12,7 +12,6 @@ const { database } = getFirebase();
  * @returns {Object} action
  */
 export function bookMarkPlace(place, cb) {
-  place.isBookmarked = true;
   database
     .ref("bookmarks")
     .push(place)
